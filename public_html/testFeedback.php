@@ -1,4 +1,5 @@
 <!-- from: https://stackoverflow.com/a/33965562 -->
+<!-- example 2 -->
 <?php
 if (isset($_POST['submit'])) {
 
