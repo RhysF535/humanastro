@@ -1,25 +1,48 @@
+<!-- from: https://stackoverflow.com/a/33965562 -->
+<?php
+if (isset($_POST['submit'])) {
+
+    $writeComment = implode('', file('test.txt')) . '[!@X#$]'. $_POST['data'];
+    $myfile = fopen("test.txt", "w") or die("Unable to open file!");
+
+    fwrite($myfile, rtrim($writeComment, '[!@X#$]'));
+    fclose($myfile);
+}
+
+$fileContent = implode('', file('test.txt'));
+$comments = explode('[!@X#$]', rtrim($fileContent, '[!@X#$]'));
+
+?>
 <!DOCTYPE html>
-<!-- test from https://www.codespeedy.com/save-html-form-data-in-a-txt-text-file-in-php/ -->
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Store form data in .txt file</title>
+    <meta charset="UTF-8" />
+    <title>Submit Data</title>
 </head>
 <body>
-  <form method="post">
-    Enter Your Text Here:<br>
-    <input type="text" name="textdata"><br>
-    <input type="submit" name="submit">
-    
-  </form>
+
+    <form id="input" action="" method="post">
+        Comment: <textarea name="data" cols="100" rows="10">
+            Name: 
+            Address: 
+            Email: 
+            Phone: 
+            ---------------------------------------------
+        </textarea>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <table>
+        <?php foreach ($comments as $i => $comment) { ?>
+        <tr>
+            <td>
+                Comment(<?php echo ($i + 1)?>):
+            </td>
+            <td>
+                <?php echo $comment;?>
+            </tr>
+        </td>
+        <?php }?>
+    </table>
+    <a href="test.txt">View Core File</a>
 </body>
 </html>
-<?php
-              
-if(isset($_POST['textdata']))
-{
-$data=$_POST['textdata'];
-$fp = fopen('data.txt', 'a');
-fwrite($fp, $data);
-fclose($fp);
-}
-?>
